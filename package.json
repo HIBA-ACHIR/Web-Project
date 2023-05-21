@@ -7,6 +7,7 @@
     "migrate": "npx prisma migrate dev && node migrate.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.0.1",
     "@prisma/client": "^4.14.1",
     "cookie-parser": "^1.4.6",
     "debug": "~2.6.9",
