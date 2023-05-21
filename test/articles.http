@@ -1,0 +1,46 @@
+###
+# GET All articles
+###
+GET http://localhost:3000/articles?take=2&skip=0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMiwiZW1haWwiOiJoaWliYWFhQGdtYWlsLmNvbSIsImlhdCI6MTY4NDY4MzAxM30.tydhKOjYn4RAfD9XNDW142n5ix7a1rjvi0V1FM7Gvfk
+
+###
+# GET an article by id 
+###
+GET http://localhost:3000/articles/1
+
+###
+# POST an article
+###
+POST http://localhost:3000/articles
+Content-Type: application/json
+authorization :  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMiwiZW1haWwiOiJhbmEzNTQzQGdtYWlsLmNvbSIsImlhdCI6MTY4NDMzNDAwNX0.GqvVVbqC7ADg1h1t2SahN2NqspwgInjeoihMysSkky4
+
+{
+  "titre": "Article",
+  "contenu": "This is the content of the article.",
+  "image": "https://example.com/image.jpg",
+  "published" : true,
+  "utilisateurId": 7,
+  "categorieIds": [2,3]
+}
+
+
+###
+# UPDATE an article
+###
+PATCH http://localhost:3000/articles
+Content-Type: application/json
+
+{
+  "id":2,
+  "titre": "Article",
+  "contenu": "This is the content of the article.",
+  "image": "https://example.com/image.jpg"
+}
+
+
+###
+# DELETE an article
+###
+DELETE http://localhost:3000/articles/1

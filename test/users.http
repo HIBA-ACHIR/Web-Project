@@ -1,0 +1,65 @@
+###
+# GET All users
+###
+GET http://localhost:3000/users?take=2&skip=0
+
+###
+# GET a user by id 
+###
+GET http://localhost:3000/users/5
+
+###
+# POST a user
+###
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+    "nom": "hiba",
+    "email": "hibaaa@gmail.com",
+    "password": "123333",
+    "role": "AUTHOR"
+}
+
+
+###
+# UPDATE a user
+###
+PATCH http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "id":2,
+    "nom": "hiba",
+    "email": "hibatallahachir@gmail.com",
+    "password": "123333",
+    "role": "AUTHOR"
+}
+
+###
+# DELETE a user
+###
+DELETE http://localhost:3000/users/2
+
+
+### login the user
+POST http://localhost:3000/signin
+Content-Type: application/json
+
+{
+    
+    "email": "hiibaaa@gmail.com",
+    "password": "123333"
+   
+}
+
+### register the user
+POST http://localhost:3000/signup
+Content-Type: application/json
+
+{
+    "nom": "hiba",
+    "email": "hiibaaa@gmail.com",
+    "password": "123333"
+   
+}

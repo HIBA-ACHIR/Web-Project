@@ -1,0 +1,36 @@
+###
+# GET All categories
+###
+GET http://localhost:3000/categories?take=2&skip=2
+
+###
+# GET an categorie by id 
+###
+GET http://localhost:3000/categories/1
+
+###
+# POST an categorie
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "nom": "cat1",
+  "articleIds": [2]
+}
+
+###
+# UPDATE an categorie
+###
+PATCH http://localhost:3000/categories
+Content-Type: application/json
+
+{
+    "id":4,
+  "nom": "cat2"
+}
+
+###
+# DELETE an categorie
+###
+DELETE http://localhost:3000/categories/3

@@ -1,0 +1,38 @@
+###
+# GET All commentaire
+###
+GET http://localhost:3000/commentaires?take=2&skip=1
+
+###
+# GET an commentaire by id 
+###
+GET http://localhost:3000/commentaires/1
+
+
+###
+# POST an commentaire
+###
+POST http://localhost:3000/commentaires
+Content-Type: application/json
+
+{
+   "email": "hibaaa@gmail.com",
+  "contenu": "rererer",
+  "articleId": 2
+}
+
+###
+# UPDATE an commentaire
+###
+PATCH http://localhost:3000/commentaires
+Content-Type: application/json
+
+{   "id": 3,
+     "email": "hibaaa@gmail.com",
+  "contenu": "rererer"
+}
+
+###
+# DELETE an commentaire
+###
+DELETE http://localhost:3000/commentaires/3
