@@ -40,11 +40,10 @@ async function seed() {
                 })
             )
         }
+        // block to create 100  categories articles 
         const utilisateurs = await prisma.Utilisateur.findMany({
             where: { role: 'AUTHOR' },
         });
-
-
 
         for (let i = 0; i < 100; i++) {
             const utilisateur = faker.helpers.arrayElement(utilisateurs);
