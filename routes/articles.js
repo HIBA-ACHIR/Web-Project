@@ -2,16 +2,39 @@ var express = require('express');
 var router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const multer = require("multer");
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "..", "public", "uploads")); // Replace 'uploads' with the desired folder path
+  },
+  filename: function (req, file, cb) {
+    const fileName =Date.now() + "-" + file.originalname;
+    cb(null, fileName);
+    req.imagePath = "http://localhost:3000/uploads/" + fileName;
+  },
+});
+
+const upload = multer({ storage });
 
 /* GET  all articles */
 router.get('/', async function (req, res, next) {
   const { take, skip } = req.query;
   try {
     const articles = await prisma.Article.findMany({
-      include: { categories: true, commentaires: true }
+      where:{published:true},
+      include: { categories: true, commentaires: true },
     });
-    // res.send(articles.splice(take,skip));
-    res.status(200).send(articles);
+   let sortedArticles = articles.sort((a, b) => b.id - a.id);
+   if(skip&&take){
+
+     res.send(sortedArticles.splice(skip,take));
+    }else{
+     res.send(sortedArticles);
+
+   }
+   
   } catch (error) {
     res.status(500).send({ error: error });
   } finally {
@@ -47,22 +70,22 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /* POST an article */
-router.post('/', async (req, res, next) => {
-  const { titre, contenu, image, published, utilisateurId, categorieIds } = req.body;
+router.post('/',upload.single("image"), async (req, res, next) => {
+  const {  titre, contenu, published, utilisateurId, categorieIds } = req.body;
 
   try {
     const newArticle = await prisma.article.create({
       data: {
         titre,
         contenu,
-        image,
-        published,
-        utilisateur: { connect: { id: utilisateurId } },
+        image: req.imagePath,
+        published:"true" === published ,
+        utilisateur: { connect: { id: parseInt(utilisateurId) } },
         categories: {
-          connect: categorieIds.map((id) => ({ id })),
+          connect: categorieIds.map((id) => ({ id: parseInt(id) })),
         },
       },
-      include: { categories: true, commentaires: true },
+      include: { utilisateur: true, categories: true, commentaires: true },
     });
 
     res.status(200).send({ status: true, message: 'Article Added Successfully', article: newArticle });

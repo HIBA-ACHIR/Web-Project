@@ -28,7 +28,7 @@ async function seed() {
                 password: faker.internet.password(),
                 role: 'ADMIN',
             },
-        });f
+        });
         //create 10  categories users
         const categories = []
         for (let i = 0; i < 10; i++) {

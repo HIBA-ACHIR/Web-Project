@@ -29,14 +29,15 @@ router.get('/:id', async (req, res, next) => {
   const id = req.params.id;
   try {
     const user = await prisma.Utilisateur.findUnique({
+      include: {
+        articles: {
+          orderBy: {
+            createdAt: "desc", // Assuming 'createdAt' is the field used for article creation timestamp
+          },
+        },
+      },
       where: {
         id: parseInt(id),
-      },
-      select: {
-        email: true,
-        nom: true,
-        id: true,
-        role: true,
       }
     });
     res.send(user);
@@ -57,6 +58,7 @@ router.post('/', async (req, res, next) => {
         role,
       },
     });
+    
     res.send({ status: true, message: 'User Created Successfully', data: newUser.id });
   } catch (error) {
     res.status(500).send({ error: error })

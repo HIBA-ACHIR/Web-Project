@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 router.post("/signup", async (req, res) => {
   try {
-    const { nom, email, password } = req.body;
+    const { nom, email, password,role } = req.body;
 
     if (!(nom && email && password)) {
       return res.status(400).json({ message: "All input is required" });
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
         nom,
         email,
         password: await bcrypt.hash(password, 10),
-        role: "AUTHOR"
+        role :role ?? "AUTHOR"
       },
     });
 
@@ -60,7 +60,7 @@ router.post("/signin", async (req, res) => {
     const user = await prisma.Utilisateur.findUnique({
       where: { email },
     });
-
+    console.log(user)
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = jwt.sign(
         { user_id: user.id, email },

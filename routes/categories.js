@@ -8,14 +8,28 @@ const prisma = new PrismaClient();
 router.get('/', async (req, res, next) => {
     const { take, skip } = req.query;
     try {
-        const categories = await prisma.Categorie.findMany(
-            {
-                include: { articles: true}
-            }
-        );
-        res.status(200).send(categories);
+      const categories = await prisma.categorie.findMany({
+        include: {
+          articles: true,
+        },
+      });
+  
+      const categoriesWithTotalArticles = categories.map((category) => ({
+        ...category,
+        totalArticles: category.articles.length,
+      }));
+  
+      if (skip && take) {
+        res.send(categoriesWithTotalArticles.splice(skip, take));
+      } else if (take) {
+        res.send(categoriesWithTotalArticles.splice(0, take));
+      } else if (skip) {
+        res.send(categoriesWithTotalArticles.splice(skip));
+      } else {
+        res.send(categoriesWithTotalArticles);
+      }
     } catch (error) {
-        res.status(500).send({ error: error });
+      res.status(500).send({ error: error });
     }
 });
 
